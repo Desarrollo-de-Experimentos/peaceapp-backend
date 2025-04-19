@@ -4,6 +4,7 @@ import com.upc.pre.peaceapp.models.Location;
 import com.upc.pre.peaceapp.repositories.LocationRepository;
 import com.upc.pre.peaceapp.schemas.LocationSchema;
 import org.antlr.v4.runtime.misc.Pair;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,13 +14,17 @@ import java.util.Map;
 @Service
 public class LocationService {
     private final LocationRepository repository;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public LocationService(LocationRepository repository) {
+    public LocationService(LocationRepository repository, SimpMessagingTemplate messagingTemplate) {
         this.repository = repository;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public Location saveLocation(LocationSchema location) {
-        return repository.save(new Location(location.latitude(), location.longitude(), location.idReport()));
+        Location newLocation = repository.save(new Location(location.latitude(), location.longitude(), location.idReport()));
+        messagingTemplate.convertAndSend("/topic/newLocation", newLocation);
+        return newLocation;
     }
 
     public List<Location> getAllLocations() {

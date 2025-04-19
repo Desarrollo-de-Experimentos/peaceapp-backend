@@ -64,9 +64,10 @@ public class WebSecurityConfiguration {
         // CORS default configuration
         http.cors(configurer -> configurer.configurationSource( o -> {
             var corsConfiguration = new CorsConfiguration();
-            corsConfiguration.setAllowedOrigins(List.of("*"));
+            corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
             corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             corsConfiguration.setAllowedHeaders(List.of("*"));
+            corsConfiguration.setAllowCredentials(true);
             return corsConfiguration;
         }));
         http.csrf(csrfConfigurer -> csrfConfigurer.disable())
@@ -79,7 +80,8 @@ public class WebSecurityConfiguration {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/ws/**"
                         ).permitAll()
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
