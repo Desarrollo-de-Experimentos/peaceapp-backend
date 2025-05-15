@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "alerts")
@@ -28,6 +27,7 @@ public class Alert extends AuditableAbstractAggregateRoot<Alert> {
     @Column(name = "type", nullable = false, length = 50)
     private String type;
 
+    @Setter
     @Column(name = "description", nullable = true, length = 255)
     private String description;
 
@@ -60,5 +60,12 @@ public class Alert extends AuditableAbstractAggregateRoot<Alert> {
         if (idUser <= 0) {
             throw new IllegalArgumentException("User ID must be a positive integer");
         }
+    }
+
+    public void setDescription(String description) {
+        if (description != null && description.length() > 255) {
+            throw new IllegalArgumentException("Description cannot exceed 255 characters");
+        }
+        this.description = description;
     }
 }
