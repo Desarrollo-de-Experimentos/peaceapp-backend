@@ -4,9 +4,8 @@ import com.upc.pre.peaceapp.models.Alert;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AlertDtoTest {
+public class AlertTest {
     @Test
     void AlertValidationFields_ValidateFields_AssertEquals() {
         //Arrange
