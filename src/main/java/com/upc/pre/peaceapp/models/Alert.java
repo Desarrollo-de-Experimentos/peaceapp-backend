@@ -41,11 +41,24 @@ public class Alert extends AuditableAbstractAggregateRoot<Alert> {
     private Long idReport; // Foreign key for report ID
 
     public Alert(String location, String type, String description, int idUser, String imageUrl, Long idReport) {
+        validateFields(location, type, idUser); // Validate fields before setting them
         this.location = location;
         this.type = type;
         this.description = description;
         this.idUser = idUser;
         this.imageUrl = imageUrl;
         this.idReport = idReport; // Set the report ID
+    }
+
+    public void validateFields(String location, String type, int idUser) {
+        if (location == null || location.isEmpty()) {
+            throw new IllegalArgumentException("Location cannot be null or empty");
+        }
+        if (type == null || type.isEmpty()) {
+            throw new IllegalArgumentException("Type cannot be null or empty");
+        }
+        if (idUser <= 0) {
+            throw new IllegalArgumentException("User ID must be a positive integer");
+        }
     }
 }
