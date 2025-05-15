@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AlertDtoTest {
     @Test
     void AlertValidationFields_ValidateFields_AssertEquals() {
+        //Arrange
         Alert alert = new Alert(
                 "Location",
                 "Type",
@@ -18,6 +19,7 @@ public class AlertDtoTest {
                 1L
         );
 
+        //Assert
         assertEquals("Location", alert.getLocation(), "La ubicación no coincide con el valor esperado");
         assertEquals("Type", alert.getType(), "El tipo no coincide con el valor esperado");
         assertEquals("Description", alert.getDescription(), "La descripción no coincide");
@@ -26,6 +28,8 @@ public class AlertDtoTest {
 
     @Test
     void SetDescription_DescriptionAlert_ThrowsExceptionMoreThan255() {
+
+        // Arrange
         Alert alert = new Alert(
                 "Location",
                 "Type",
@@ -35,6 +39,7 @@ public class AlertDtoTest {
                 1L
         );
 
+        // Act & Assert
         String longDescription = "a".repeat(256); // 256 characters long
 
         alert.setDescription(longDescription);
